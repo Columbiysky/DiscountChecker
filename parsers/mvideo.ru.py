@@ -29,5 +29,5 @@ class MvideoParse(ParserBase):
 
 
 if __name__ == '__main__':
-    mvidParser = MvideoParse()
-    mvidParser.parse(sys.argv[1])
+    parser = MvideoParse()
+    parser.parse(sys.argv[1])

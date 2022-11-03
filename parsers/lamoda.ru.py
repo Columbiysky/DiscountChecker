@@ -33,5 +33,5 @@ class DnsShopParse(ParserBase):
 
 
 if __name__ == '__main__':
-    mvidParser = DnsShopParse()
-    mvidParser.parse(sys.argv[1])
+    parser = DnsShopParse()
+    parser.parse(sys.argv[1])
