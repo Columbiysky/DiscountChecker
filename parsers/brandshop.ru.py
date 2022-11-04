@@ -37,5 +37,4 @@ class BrandshopParse(ParserBase):
 
 if __name__ == '__main__':
     parser = BrandshopParse()
-    parser.parse('https://brandshop.ru/goods/369653/cu5506-010/')
-    # mvidParser.parse(sys.argv[1])
+    parser.parse(sys.argv[1])
