@@ -1,17 +1,19 @@
-import subprocess
-import sys
 from urllib.parse import urlparse
 
+from fastapi import Body, FastAPI
+from fastapi.responses import JSONResponse
+from selenium import webdriver
 
-def main(link: str):
-    domain = urlparse(link).hostname
-    proc = subprocess.Popen(
-        f'python ./parsers/{domain}.py {link}',
-        stdout=subprocess.PIPE,
-        shell=True)
-    for line in proc.stdout:
-        print(line.decode("utf-8"))
+from parsers.parsersCollection import ParsersCollection
+
+driver = webdriver.Chrome()
+app = FastAPI()
 
 
-if __name__ == '__main__':
-    main(sys.argv[1])
+@app.post("/")
+def main(data=Body()):
+    link = data["link"]
+    domain = urlparse(link).hostname.replace('www.', '')
+    parser = ParsersCollection.GetParser(domain)
+    result = parser.parse(link, driver)
+    return JSONResponse(result)

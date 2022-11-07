@@ -1,15 +1,15 @@
 import sys
 
-from base import ParserBase
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+from parsers.base import ParserBase
 
-class DnsShopParse(ParserBase):
-    def parse(self, link: str):
-        driver = webdriver.Chrome()
+
+class LamodaParse(ParserBase):
+    def parse(self, link: str, driver: webdriver):
         driver.get(link)
         try:
             waitPage = WebDriverWait(driver, 15).until(
@@ -23,15 +23,15 @@ class DnsShopParse(ParserBase):
                 'id("vue-root")/DIV[1]/MAIN[1]/DIV[1]/DIV[2]/DIV[2]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/DIV[1]/SPAN[2]').text)
             if oldPrice in currentPrice:
                 currentPrice = currentPrice.replace(oldPrice, '')
-            print('True ' + currentPrice + ' '+oldPrice)
+            return True, currentPrice, oldPrice
         except:
             locals_ = locals()
             if ('currentPrice' not in locals_ and 'oldPrice' in locals_):
-                print('False ' + oldPrice)
+                return False, oldPrice
             else:
-                print(None)
+                return None
 
 
 if __name__ == '__main__':
-    parser = DnsShopParse()
+    parser = LamodaParse()
     parser.parse(sys.argv[1])

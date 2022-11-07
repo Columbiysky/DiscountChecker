@@ -1,15 +1,15 @@
 import sys
 
-from base import ParserBase
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
+from parsers.base import ParserBase
+
 
 class BrandshopParse(ParserBase):
-    def parse(self, link: str):
-        driver = webdriver.Chrome()
+    def parse(self, link: str, driver: webdriver):
         driver.get(link)
         try:
             waitPage = WebDriverWait(driver, 15).until(
@@ -24,15 +24,15 @@ class BrandshopParse(ParserBase):
                 By.CLASS_NAME, "product-order__price_new").text)
             if oldPrice in currentPrice:
                 currentPrice = currentPrice.replace(oldPrice, '')
-            print('True ' + currentPrice + ' '+oldPrice)
+            return True, currentPrice, oldPrice
         except:
             locals_ = locals()
             if ('oldPrice' not in locals_ and 'currentPrice' in locals_):
-                print('False ' + currentPrice)
+                return False, currentPrice
             elif ('priceWrapper' in locals_):
-                print('False ' + self.numbersOnly(priceWrapper.text))
+                return False, self.numbersOnly(priceWrapper.text)
             else:
-                print(None)
+                return None
 
 
 if __name__ == '__main__':
