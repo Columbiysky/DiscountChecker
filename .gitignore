@@ -1,2 +1,12 @@
 parsers/__pycache__/base.cpython-310.pyc
 .vscode/launch.json
+*.dll
+*.2
+*.vsidx
+*.lock
+
+.vs/
+bin/
+Debug/
+obj/
+*.exe
