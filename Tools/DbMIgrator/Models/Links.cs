@@ -6,5 +6,7 @@
         public string? Url { get; set; }
         public double CurrentPrice { get; set; }
         public bool DiscountStatus { get; set; }
+
+        public LinkPriceHistory LinkPriceHistory { get; set; }  
     }
 }
