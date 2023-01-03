@@ -2,35 +2,39 @@
   <div class="container">
     <div class="newValue">
       <div class="item">
-        name:
-        <InputText id="name" type="text" v-model="currentName" />
+        Your items
       </div>
-      <div class="wideItem">
-        link:
-        <InputText id="link" type="text" v-model="currentLink" />
-      </div>
-      <div class="item" style="padding-left: 3px;">
-        Timeout in Minutes:
-        <InputNumber v-model="currentTimeoutInMinutes" :min="60" />
-      </div>
+      <Button style="margin-top: 5px;" class="p-button-outlined" label="New item" @click="handleNewLine()" />
+
     </div>
     <div style="padding-top: 5px;">
-      <DataTable :value="data">
-        <Column field="name" header="Name"></Column>
-        <Column field="link" header="Link"></Column>
-        <Column field="timeout" header="Timeout"></Column>
-        <Column field="timeOfLastCheck" header="Time of last check"></Column>
-        <Column>
-          <template #body>
-            <Button type="button" icon="pi pi-pencil"></Button>
+      <DataTable :value="data" editMode="cell" :showAddButton=true @cell-edit-complete="onCellEditComplete">
+        <Column field="name" header="Name">
+          <template #editor="slotProps">
+            <InputText v-model="slotProps.data[slotProps.field]" />
           </template>
         </Column>
+        <Column field="link" header="Link">
+          <template #editor="slotProps">
+            <InputText v-model="slotProps.data[slotProps.field]" />
+          </template>
+        </Column>
+        <Column field="timeout" header="Timeout">
+          <template #editor="slotProps">
+            <InputNumber v-model="slotProps.data[slotProps.field]" showButtons :min=60 />
+          </template>
+        </Column>
+        <Column field="timeOfLastCheck" header="Time of last check"></Column>
+        <Column header="Delete"><template #editor="slotProps">
+            <Button v-model="slotProps.data" @click="handleDelete(slotProps.data)" />
+          </template></Column>
       </DataTable>
     </div>
   </div>
 </template>
 
 <script>
+import * as _ from 'lodash'
 /* eslint-disable */
 const minimalTimeoutInMinutes = 60
 const defaultOptions = {
@@ -45,7 +49,7 @@ const defaultOptions = {
 export default {
   data() {
     return {
-      data: null,
+      data: [],
       options: defaultOptions,
       currentLink: '',
       currentName: '',
@@ -67,7 +71,36 @@ export default {
   },
   name: 'MainPage',
   props: {},
-  methods: {},
+  methods: {
+    onCellEditComplete(event) {
+      let { data, newValue, field } = event;
+
+      switch (event.field) {
+        case 'year':
+          if (this.isPositiveInteger(newValue))
+            data[field] = newValue;
+          else
+            event.preventDefault();
+          break;
+
+        default:
+          if ((typeof (newValue) === "string" && newValue.trim().length > 0) || typeof (newValue) !== "string")
+            data[field] = newValue;
+          else
+            event.preventDefault();
+          break;
+      }
+    },
+    handleDelete(event) {
+      _.remove(this.data, function (value) {
+        return value.link === event.link
+          && value.name === event.name;
+      })
+    },
+    handleNewLine() {
+      this.data.push({ undefined, undefined, undefined, undefined });
+    }
+  },
 }
 </script>
 
@@ -82,19 +115,6 @@ export default {
 
 .newValue {
   display: grid;
-  grid-template-columns: auto 2fr 1fr;
-}
-
-.item {
-  flex-basis: 100px;
-  flex-grow: 0;
-}
-
-.wideItem {
-  flex-basis: 250px;
-  flex-grow: 2;
-  padding-left: 3px;
-  display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr auto;
 }
 </style>
