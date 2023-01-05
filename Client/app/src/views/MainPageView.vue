@@ -25,15 +25,17 @@
           </template>
         </Column>
         <Column field="timeOfLastCheck" header="Time of last check"></Column>
-        <Column header="Delete"><template #editor="slotProps">
-            <Button v-model="slotProps.data" @click="handleDelete(slotProps.data)" />
-          </template></Column>
+        <Column header="Delete">
+          <template #body="slotProps">
+            <Button v-model="slotProps.data" icon="pi pi-trash" @click="handleDelete(slotProps.data)" />
+          </template>
+        </Column>
       </DataTable>
     </div>
   </div>
 </template>
 
-<script>
+<script lang="js">
 import * as _ from 'lodash'
 /* eslint-disable */
 const minimalTimeoutInMinutes = 60
@@ -57,17 +59,18 @@ export default {
     }
   },
   created() {
-    this.data = [
-      {
-        name: 'Кронштейн под моники',
-        link:
-          'https://www.dns-shop.ru/product/88150834b7af2eb1/kreplenie-dla-monitorov-nb-f160/',
-        timeout: 60,
-        timeOfLastCheck: new Intl.DateTimeFormat('ru-RU', this.options).format(
-          new Date(),
-        ),
-      },
-    ]
+    this.data =
+      [
+        {
+          name: 'Кронштейн под моники',
+          link:
+            'https://www.dns-shop.ru/product/88150834b7af2eb1/kreplenie-dla-monitorov-nb-f160/',
+          timeout: 60,
+          timeOfLastCheck: new Intl.DateTimeFormat('ru-RU', this.options).format(
+            new Date(),
+          ),
+        },
+      ]
   },
   name: 'MainPage',
   props: {},
@@ -76,13 +79,6 @@ export default {
       let { data, newValue, field } = event;
 
       switch (event.field) {
-        case 'year':
-          if (this.isPositiveInteger(newValue))
-            data[field] = newValue;
-          else
-            event.preventDefault();
-          break;
-
         default:
           if ((typeof (newValue) === "string" && newValue.trim().length > 0) || typeof (newValue) !== "string")
             data[field] = newValue;
@@ -96,9 +92,27 @@ export default {
         return value.link === event.link
           && value.name === event.name;
       })
+
+      if (_.isEmpty(this.data)) {
+        this.data = undefined;
+      }
     },
     handleNewLine() {
-      this.data.push({ undefined, undefined, undefined, undefined });
+      if (_.isNil(this.data)) {
+        this.data = [{
+          name: undefined,
+          link: undefined,
+          timeout: this.minimalTimeoutInMinutes,
+          timeOfLastCheck: undefined
+        }]
+      } else {
+        this.data.push({
+          name: undefined,
+          link: undefined,
+          timeout: this.minimalTimeoutInMinutes,
+          timeOfLastCheck: undefined
+        })
+      };
     }
   },
 }
