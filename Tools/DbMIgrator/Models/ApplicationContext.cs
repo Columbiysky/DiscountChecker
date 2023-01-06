@@ -17,7 +17,7 @@ namespace DbMIgrator.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=DiscountChecker;Username=postgres;Password=C0laC0la");
+            optionsBuilder.UseNpgsql("Host=localhost;Port=49153;Database=DiscountChecker;Username=postgres;Password=postgrespw");
         }
     }
 }

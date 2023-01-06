@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DbMIgrator.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,9 +13,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DbMigrator.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230106140518_AddTokenToUser")]
+    partial class AddTokenToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,7 +61,6 @@ namespace DbMigrator.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Url")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -123,9 +125,10 @@ namespace DbMigrator.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Token")
+                        .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("TokenExpiration")
+                    b.Property<DateTime>("TokenExpiration")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserName")
