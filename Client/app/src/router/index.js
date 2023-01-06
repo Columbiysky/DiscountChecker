@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { createRouter, createWebHistory } from 'vue-router'
-import LoginPageView from '../views/LoginPageView.vue'
+import { createRouter, createWebHistory } from 'vue-router';
+import LoginPageView from '../views/LoginPageView.vue';
 
 const routes = [
   {

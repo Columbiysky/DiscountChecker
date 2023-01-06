@@ -10,12 +10,7 @@
       <label for="password">Password</label>
     </span>
 
-    <Button
-      style="margin-top: 5px;"
-      class="p-button-outlined"
-      label="Login"
-      @click="handleLogin()"
-    />
+    <Button style="margin-top: 5px;" class="p-button-outlined" label="Login" @click="handleLogin()" />
 
     <p>
       {{ error }}
@@ -24,13 +19,23 @@
 </template>
 
 <script>
+import { useCookies } from "vue3-cookies";
 export default {
+  setup() {
+    const { cookies } = useCookies();
+    return { cookies };
+  },
   data() {
     return {
       login: '',
       pass: '',
       error: '',
     }
+  },
+  mounted() {
+    let my_cookie_value = this.cookies.get("myCoookie");
+    console.log(my_cookie_value);
+    this.cookies.set("myCoookie", "abcdefg");
   },
   name: 'LoginPage',
   props: {},
