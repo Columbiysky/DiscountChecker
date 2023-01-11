@@ -6,6 +6,6 @@ type DbBase struct {
 
 func getConfig() DbBase {
 	dbBase := DbBase{}
-	dbBase.ConnectionString = "user=postgres password=postgrespw dbname=DiscountChecker sslmode=disable"
+	dbBase.ConnectionString = "user=postgres password=C0laC0la dbname=DiscountChecker sslmode=disable"
 	return dbBase
 }
