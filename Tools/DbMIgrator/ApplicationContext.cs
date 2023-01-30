@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Models;
 
 namespace DbMIgrator.Models
 {
@@ -8,7 +9,7 @@ namespace DbMIgrator.Models
         {
         }
 
-        DbSet<Users> Users { get; set; } = null!;
+        DbSet<User> Users { get; set; } = null!;
         DbSet<Links> Links { get; set; } = null!;
         DbSet<UserLinks> UserLinks { get; set; } = null!;
         DbSet<LinkPriceHistory> LinkPriceHistory { get; set; } = null!;

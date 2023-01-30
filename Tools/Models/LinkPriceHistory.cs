@@ -1,4 +1,4 @@
-﻿namespace DbMIgrator.Models
+﻿namespace Models
 {
     public class LinkPriceHistory
     {
