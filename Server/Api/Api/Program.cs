@@ -1,5 +1,4 @@
-using Models;
-using System;
+using Api.Logic.UserLogic;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +20,7 @@ app.UseHttpsRedirection();
 
 app.MapPost("/login", (string login, string password) =>
 {
-    var user = new User { UserName = login, Password = password };
+    var user = new UserLogic().GetUserByLoginAndPassword(login, password);
     return user;
 })
 .WithName("Login")
