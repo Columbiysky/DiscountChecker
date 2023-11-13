@@ -11,3 +11,4 @@ Debug/
 obj/
 *.exe
 delve/
+.vscode/settings.json
